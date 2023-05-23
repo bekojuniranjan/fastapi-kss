@@ -15,7 +15,7 @@ def hello():
 
 
 @app.get("/customers/{gender}")
-def get_all_customer_by_gender(gender: Gender, offset: int, limit: int | None = None):
+def get_all_customer_by_gender(offset: int, gender: Gender, limit: int | None = None):
     # offset: from where the data fetch: starting customer ID, 
     # limit: no. of customer to fetch after starting customer ID
     if limit is not None:
@@ -40,6 +40,7 @@ def get_all_customer(offset: int, limit: int | None = None):
 def get_all_customer(offset: int, limit: Union[int, None] = None):
     # offset: from where the data fetch: starting customer ID, 
     # limit: no. of customer to fetch after starting customer ID
+    sql = "Select * from customer where gender = '{gender}' order by id offset {offset} limit {limit}"
     if limit is not None:
         return {'message': f"Return all customers from {offset} to {offset + limit}, including {offset} and excluding {offset + limit}"}   # what if we have 10000 customers, band width problem to receive all the customers.  offset and limit.
     else:
